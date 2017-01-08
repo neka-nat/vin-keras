@@ -1,9 +1,8 @@
-import pickle
+import joblib
 import numpy as np
 
 def process_map_data(path):
-    with open(path, mode='rb') as f:
-        data = pickle.load(f)
+    data = joblib.load(path)
 
     im_data = data['im']
     value_data = data['value']

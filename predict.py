@@ -32,9 +32,9 @@ def predict(im, pos, model, k):
 
 def main():
     parser = argparse.ArgumentParser(description='VIN')
-    parser.add_argument('--data', '-d', type=str, default='./map_data.pkl',
+    parser.add_argument('--data', '-d', type=str, default='./data/map_data.pkl',
                         help='Path to map data generated with script_make_data.py')
-    parser.add_argument('--model', '-m', type=str, default='',
+    parser.add_argument('--model', '-m', type=str, default='vin_model_weights.h5',
                         help='Model from given file')
     args = parser.parse_args()
 
