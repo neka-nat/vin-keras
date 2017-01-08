@@ -4,6 +4,6 @@ This is a implimentation of [VIN(Value Iteration Network)](https://arxiv.org/abs
 
 
 ## Reference
-* [VIN](https://github.com/avivt/VIN)
+* [VIN(original)](https://github.com/avivt/VIN)
 * [tensorflow-value-iteration-networks](https://github.com/TheAbhiKumar/tensorflow-value-iteration-networks)
-* [vin](https://github.com/peisuke/vin)
+* [vin(chainer)](https://github.com/peisuke/vin)
