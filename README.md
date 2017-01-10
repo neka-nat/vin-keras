@@ -6,11 +6,11 @@ This is a implimentation of [VIN(Value Iteration Networks)](https://arxiv.org/ab
 
 First, train and save VIN model.
 
-$ python train.py
+    $ python train.py
 
 Next, predict path on the test data.
 
-$ python predict.py
+    $ python predict.py
 
 ## Reference
 * [VIN(original)](https://github.com/avivt/VIN)
