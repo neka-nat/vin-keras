@@ -1,7 +1,7 @@
-from __future__ import print_function
 import argparse
 
 from keras.optimizers import Adam
+import keras.backend as K
 from vin import vin_model
 from utils import process_map_data
 
@@ -25,7 +25,9 @@ def main():
                   metrics=['accuracy'])
     train, test = process_map_data(args.data)
 
-    model.fit([train[0], train[1]], train[2],
+    model.fit([train[0].swapaxes(1, 2).swapaxes(2, 3) if K.image_dim_ordering() == 'tf' else train[0],
+               train[1]],
+              train[2],
               batch_size=args.batchsize,
               nb_epoch=args.epoch)
 

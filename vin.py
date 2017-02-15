@@ -4,14 +4,28 @@ from keras.models import Model
 from keras.layers import Input, Convolution2D, merge, Reshape, Dense, Lambda
 import keras.backend as K
 
+def _handle_dim_ordering():
+    global ROW_AXIS
+    global COL_AXIS
+    global CHANNEL_AXIS
+    if K.image_dim_ordering() == 'tf':
+        ROW_AXIS = 1
+        COL_AXIS = 2
+        CHANNEL_AXIS = 3
+    else:
+        CHANNEL_AXIS = 1
+        ROW_AXIS = 2
+        COL_AXIS = 3
+
 def vin_model(l_s=16, k=10, l_h=150, l_q=10, l_a=8):
+    _handle_dim_ordering()
     def ext_start(inputs):
         m = inputs[0]
         s = inputs[1]
         w = K.one_hot(s[:, 0] + l_s * s[:, 1], l_s * l_s) # (None, l_s * l_s)
         return K.transpose(K.sum(w * K.permute_dimensions(m, (1, 0, 2)), axis=2))
 
-    map_in = Input(shape=(2, l_s, l_s))
+    map_in = Input(shape=(l_s, l_s, 2) if K.image_dim_ordering() == 'tf' else (2, l_s, l_s))
     x = Convolution2D(l_h, 3, 3, subsample=(1, 1),
                       activation='relu',
                       border_mode='same')(map_in)
@@ -27,8 +41,9 @@ def vin_model(l_s=16, k=10, l_h=150, l_q=10, l_a=8):
     q_ini = conv3(r)
     q = q_ini
     for idx in range(k):
-        v = Lambda(lambda x: K.max(x, axis=1, keepdims=True),
-                   output_shape=(1, l_s, l_s), name='value{}'.format(idx + 1))(q)
+        v = Lambda(lambda x: K.max(x, axis=CHANNEL_AXIS, keepdims=True),
+                   output_shape=(l_s, l_s, 1) if K.image_dim_ordering() == 'tf' else (1, l_s, l_s),
+                   name='value{}'.format(idx + 1))(q)
         q = merge([q_ini, conv3b(v)], mode='sum')
 
     q = Reshape(target_shape=(l_q, l_s * l_s))(q)

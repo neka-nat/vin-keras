@@ -1,7 +1,7 @@
-from __future__ import print_function
 import argparse
 import numpy as np
 import cv2
+import keras.backend as K
 from vin import vin_model, get_layer_output
 from utils import process_map_data
 
@@ -20,7 +20,8 @@ def find_goal(m):
     return np.argwhere(m.max() == m)[0][::-1]
 
 def predict(im, pos, model, k):
-    res = model.predict([np.array([im]), np.array([pos])])
+    res = model.predict([np.array([im]).swapaxes(1, 2).swapaxes(2, 3) if K.image_dim_ordering() == 'tf' else np.array([im]),
+                         np.array([pos])])
 
     action = np.argmax(res)
     reward = get_layer_output(model, 'reward', np.array([im]))

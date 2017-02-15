@@ -1,6 +1,6 @@
 # vin-keras
 
-This is a implimentation of [VIN(Value Iteration Networks)](https://arxiv.org/abs/1602.02867) in keras.
+This is an implimentation of [VIN(Value Iteration Networks)](https://arxiv.org/abs/1602.02867) in keras.
 
 * 16x16 Grid world datasets from [vin(chainer) repository](https://github.com/peisuke/vin)
 
