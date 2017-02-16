@@ -46,6 +46,8 @@ def vin_model(l_s=16, k=10, l_h=150, l_q=10, l_a=8):
                    name='value{}'.format(idx + 1))(q)
         q = merge([q_ini, conv3b(v)], mode='sum')
 
+    if K.image_dim_ordering() == 'tf':
+        q = Lambda(lambda x: K.permute_dimensions(x, (0, 3, 1, 2)), output_shape=(l_q, l_s, l_s))(q)
     q = Reshape(target_shape=(l_q, l_s * l_s))(q)
     s_in = Input(shape=(2,), dtype='int32')
     q_out = merge([q, s_in], mode=ext_start, output_shape=(l_q,))
