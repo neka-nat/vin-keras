@@ -40,9 +40,9 @@ def main():
     args = parser.parse_args()
 
     k = 20
-    model = vin_model(k=k)
-    model.load_weights(args.model)
     train, test = process_map_data(args.data)
+    model = vin_model(l_s=test[0].shape[2], k=k)
+    model.load_weights(args.model)
 
     for d in zip(*test):
         im = d[0]

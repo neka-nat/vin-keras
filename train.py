@@ -19,11 +19,11 @@ def main():
     print('# epoch: {}'.format(args.epoch))
     print('')
 
-    model = vin_model(k=20)
+    train, test = process_map_data(args.data)
+    model = vin_model(l_s=train[0].shape[2], k=20)
     model.compile(optimizer=Adam(),
                   loss='categorical_crossentropy',
                   metrics=['accuracy'])
-    train, test = process_map_data(args.data)
 
     model.fit([train[0].swapaxes(1, 2).swapaxes(2, 3) if K.image_dim_ordering() == 'tf' else train[0],
                train[1]],
