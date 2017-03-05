@@ -25,7 +25,7 @@ def main():
                   loss='categorical_crossentropy',
                   metrics=['accuracy'])
 
-    model.fit([train[0].swapaxes(1, 2).swapaxes(2, 3) if K.image_dim_ordering() == 'tf' else train[0],
+    model.fit([train[0].transpose((0, 2, 3, 1)) if K.image_dim_ordering() == 'tf' else train[0],
                train[1]],
               train[2],
               batch_size=args.batchsize,
