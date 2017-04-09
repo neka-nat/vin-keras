@@ -20,14 +20,15 @@ def find_goal(m):
     return np.argwhere(m.max() == m)[0][::-1]
 
 def predict(im, pos, model, k):
-    res = model.predict([np.array([im]).swapaxes(1, 2).swapaxes(2, 3) if K.image_dim_ordering() == 'tf' else np.array([im]),
+    im_ary = np.array([im]).transpose((0, 2, 3, 1)) if K.image_dim_ordering() == 'tf' else np.array([im])
+    res = model.predict([im_ary,
                          np.array([pos])])
 
     action = np.argmax(res)
-    reward = get_layer_output(model, 'reward', np.array([im]))
-    value = get_layer_output(model, 'value{}'.format(k), np.array([im]))
-    reward = np.reshape(reward, reward.shape[2:])
-    value = np.reshape(value, value.shape[2:])
+    reward = get_layer_output(model, 'reward', im_ary)
+    value = get_layer_output(model, 'value{}'.format(k), im_ary)
+    reward = np.reshape(reward, im.shape[1:])
+    value = np.reshape(value, im.shape[1:])
 
     return action, reward, value
 
