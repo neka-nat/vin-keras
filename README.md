@@ -12,6 +12,12 @@ Next, predict path on the test data.
 
     $ python predict.py
 
+An example of the results are shown below.
+
+![result0](images/image0.png)
+![result1](images/image1.png)
+![result2](images/image2.png)
+
 ## Reference
 * [VIN(original)](https://github.com/avivt/VIN)
 * [tensorflow-value-iteration-networks](https://github.com/TheAbhiKumar/tensorflow-value-iteration-networks)
