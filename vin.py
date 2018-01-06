@@ -58,7 +58,7 @@ def get_layer_output(model, layer_name, x):
     return K.function([model.layers[0].input], [model.get_layer(layer_name).output])([x])[0]
 
 if __name__ == "__main__":
-    from keras.utils.visualize_util import plot
+    from keras.utils import plot_model
     model = vin_model(k=20)
     model.summary()
-    plot(model, to_file='model.png', show_shapes=True)
+    plot_model(model, to_file='model.png', show_shapes=True)
